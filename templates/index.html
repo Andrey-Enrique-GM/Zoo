@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <title>Zoólogico Chihuahuas</title>
+    </head>
+
+    <body>
+
+        <!-- Tabla de los tipos de perro chihuahua -->
+        <table>
+            <tr>
+                <th>Tipo de Chihuahua</th>
+                <th>Descripción</th>
+                <th>Imagen</th>
+            </tr>
+            <tr>
+                <td>Cabeza de Manzana</td>
+                <td>Craneo redondo, frente alta, ojos grandes y saltones.</td>
+                <td><img src="{{ url_for('static', filename='images/chihuahua_manzana.png') }}" alt="Chihuahua pelo corto"></td>
+            </tr>
+            <tr>
+                <td>Cabeza de Venado</td>
+                <td>Hocico mas largo y estrecho, craneo plano como el de un ciervo.</td>
+                <td><img src="{{ url_for('static', filename='images/chihuahua_venado.png') }}" alt="Chihuahua pelo largo"></td>
+            </tr>
+            <tr>
+                <td>Pelo corto</td>
+                <td>Manto liso, suave y pegado al cuerpo.</td>
+                <td><img src="{{ url_for('static', filename='images/chihuahua_pelo_corto.png') }}" alt="Chihuahua pelo nulo"></td>
+            </tr>
+            <tr>
+                <td>Pelo largo</td>
+                <td>Pelo fino, sedoso, ondulado. Flecos en orejas y cola.</td>
+                <td><img src="{{ url_for('static', filename='images/chihuahua_pelo_largo.png') }}" alt="Chihuahua pelo corto"></td>
+            </tr>
+            <tr>
+                <td>Miniatura (Toy)</td>
+                <td>Tamaño extremadamente pequeño y pesa menos de 2kg.</td>
+                <td><img src="{{ url_for('static', filename='images/chihuahua_miniatura.png') }}" alt="Chihuahua pelo largo"></td>
+            </tr>
+            <tr>
+                <td>Sin pelo (Hairless)</td>
+                <td>Variacion genetica menos comun de piel expuesta.</td>
+                <td><img src="{{ url_for('static', filename='images/chihuahua_sin_pelo.png') }}" alt="Chihuahua pelo nulo"></td>
+            </tr>
+        </table>
+
+    </body>
+</html>
