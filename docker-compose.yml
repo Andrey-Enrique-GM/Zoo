@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # 01: Aplicación de Flask
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/workspaces/zoo
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=zoo_user
+      - MYSQL_PASSWORD=zoo_password
+      - MYSQL_DB=zoo_db
+    depends_on:
+      - db
+
+  # 02: Base de datos MySQL
+  db:
+    image: mysql:8.0
+    container_name: chihuahua_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: zoo_db
+      MYSQL_USER: zoo_user
+      MYSQL_PASSWORD: zoo_password
+    ports:
+      - "3306:3306"
+    volumes:
+      # Esta carpeta 'mysql_data' se creará sola en el proyecto para guardar los chihuahuas
+      - ./mysql_data:/var/lib/mysql
+      # Este script creará la tabla automáticamente la primera vez
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

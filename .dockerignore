@@ -1,0 +1,4 @@
+mysql_data/
+.git/
+venv/
+__pycache__/
