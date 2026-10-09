@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import os
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import safe_join
 
 
 # CRUD de animales ---
@@ -33,7 +34,47 @@ class Chihuahua(db.Model):
 @app.route('/')
 def index():
     chihuahuas = Chihuahua.query.all()
-    return render_template('index.html', chihuahuas=chihuahuas)
+    return render_template(
+        'index.html',
+        chihuahuas=chihuahuas,
+        error=request.args.get('error'),
+        form_data={},
+        agregado=request.args.get('agregado') == '1',
+    )
+
+
+@app.route('/chihuahuas', methods=['POST'])
+def add_chihuahua():
+    tipo = request.form.get('tipo', '').strip()
+    descripcion = request.form.get('descripcion', '').strip()
+    imagen = request.form.get('imagen', '').strip()
+    image_path = safe_join(app.static_folder, imagen)
+
+    if not tipo or len(tipo) > 100:
+        error = 'El tipo es obligatorio y debe tener como máximo 100 caracteres.'
+    elif not descripcion:
+        error = 'La descripción es obligatoria.'
+    elif not imagen or len(imagen) > 255 or not image_path or not os.path.isfile(image_path):
+        error = 'Indica una imagen existente dentro de static (por ejemplo, images/chihuahua_manzana.png).'
+    else:
+        chihuahua = Chihuahua(tipo=tipo, descripcion=descripcion, imagen=imagen)
+        db.session.add(chihuahua)
+        db.session.commit()
+        return redirect(url_for('index', agregado='1'), code=303)
+
+    chihuahuas = Chihuahua.query.all()
+    return render_template(
+        'index.html',
+        chihuahuas=chihuahuas,
+        error=error,
+        form_data=request.form,
+        agregado=False,
+    ), 400
+
+
+# cd "C:\Python\DevOps 2026\zoo"
+# docker compose up   /   docker compose up --build
+# http://localhost:5000
 
 
 if __name__ == '__main__':

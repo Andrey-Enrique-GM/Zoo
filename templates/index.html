@@ -1,29 +1,79 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}?v=1.2">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Zoológico Chihuahuas</title>
     </head>
 
     <body>
+        <main class="container">
 
-        <!-- Tabla dinámica de los tipos de perro chihuahua -->
-        <table>
-            <tr>
-                <th>Tipo de Chihuahua</th>
-                <th>Descripción</th>
-                <th>Imagen</th>
-            </tr>
-            {% for chihuahua in chihuahuas %}
-            <tr>
-                <td>{{ chihuahua.tipo }}</td>
-                <td>{{ chihuahua.descripcion }}</td>
-                <td>
-                    <img src="{{ url_for('static', filename=chihuahua.imagen) }}" alt="{{ chihuahua.tipo }}">
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+            <header class="header">
+                <h1>Zoológico de Chihuahuas</h1>
+                <p class="subtitle">Descubre las distintas variedades de la raza</p>
+            </header>
 
+            {% if agregado %}
+            <p class="message success" role="status">El chihuahua se agregó correctamente.</p>
+            {% endif %}
+            {% if error %}
+            <p class="message error" role="alert">{{ error }}</p>
+            {% endif %}
+
+            <table class="table-container">
+                <thead>
+                    <tr>
+                        <th>Tipo de Chihuahua</th>
+                        <th>Descripción</th>
+                        <th class="text-center">Imagen</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for chihuahua in chihuahuas %}
+                    <tr>
+                        <td class="font-bold">{{ chihuahua.tipo }}</td>
+                        <td class="description-text">{{ chihuahua.descripcion }}</td>
+                        <td class="text-center img-cell">
+                            <div class="img-wrapper">
+                                <img src="{{ url_for('static', filename=chihuahua.imagen) }}" alt="{{ chihuahua.tipo }}">
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+            <!-- Controles -->
+            <div class="controls">
+                <button id="btnAddChihuahua" type="button" aria-controls="chihuahuaForm" aria-expanded="{{ 'true' if error else 'false' }}">
+                    Agregar un Chihuahua
+                </button>
+            </div>
+
+            <section id="chihuahuaForm" class="form-panel" {% if not error %}hidden{% endif %}>
+                <h2>Nuevo Chihuahua</h2>
+                <form action="{{ url_for('add_chihuahua') }}" method="post">
+                    <label for="tipo">Tipo de Chihuahua</label>
+                    <input id="tipo" name="tipo" type="text" maxlength="100" required value="{{ form_data.get('tipo', '') }}">
+
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" required>{{ form_data.get('descripcion', '') }}</textarea>
+
+                    <label for="imagen">Ruta de imagen</label>
+                    <input id="imagen" name="imagen" type="text" maxlength="255" required
+                           placeholder="images/chihuahua_manzana.png" value="{{ form_data.get('imagen', '') }}">
+                    <p class="form-hint">Escribe la ruta de una imagen existente dentro de la carpeta static.</p>
+
+                    <div class="form-actions">
+                        <button type="submit">Guardar Chihuahua</button>
+                        <button id="btnCancelChihuahua" class="secondary-button" type="button">Cancelar</button>
+                    </div>
+                </form>
+            </section>
+
+        </main>
+        <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
     </body>
 </html>

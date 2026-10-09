@@ -1,3 +1,4 @@
+-- Se crea la tabla chihuahuas si no existe
 CREATE TABLE IF NOT EXISTS chihuahuas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     tipo VARCHAR(100) NOT NULL,
@@ -6,6 +7,8 @@ CREATE TABLE IF NOT EXISTS chihuahuas (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
+-- Se ingresan 6 chihuahuas iniciales a la tabla chihuahuas
 INSERT INTO chihuahuas (tipo, descripcion, imagen) VALUES 
 ('Cabeza de Manzana', 'Craneo redondo, frente alta, ojos grandes y saltones.', 'images/chihuahua_manzana.png'),
 ('Cabeza de Venado', 'Hocico mas largo y estrecho, craneo plano como el de un ciervo.', 'images/chihuahua_venado.png'),
