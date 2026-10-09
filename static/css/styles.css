@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #ffffff; /* Fondo completamente blanco */
+    background-color: #ffffff;
     color: #2d3748;
     min-height: 100vh;
     padding: 40px 20px;
@@ -76,10 +76,6 @@ td {
     line-height: 1.5;
 }
 
-tr:last-child td {
-    border-bottom: none;
-}
-
 tr:hover {
     background-color: #fafafa;
 }
@@ -104,7 +100,6 @@ tr:hover {
     width: 25%;
 }
 
-/* Contenedor de la Imagen para integrarla sin bordes marcados */
 .img-wrapper {
     display: inline-block;
     background-color: #ffffff;
@@ -118,46 +113,89 @@ tr:hover {
     margin: 0 auto;
 }
 
-
-/* Controles */
-.controls {
-    margin-top: 24px;
-    text-align: center;
-    color: #2d69e0;
+/* Estilo Fila Excel "Agregar Chihuahua" */
+.add-row-cell {
+    padding: 0;
+    background-color: #f8fafc;
+    border-bottom: none;
 }
 
-button {
-    border: 0;
-    border-radius: 8px;
-    padding: 12px 18px;
-    background-color: #2d69e0;
-    color: #ffffff;
-    font-size: 1rem;
+.btn-add-excel {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 24px;
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 2px dashed #cbd5e1;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
-button:hover {
-    background-color: #2457bd;
+.btn-add-excel:hover {
+    background-color: #e2e8f0;
+    color: #1e293b;
+    border-color: #94a3b8;
 }
 
-.form-panel {
-    max-width: 620px;
-    margin: 24px auto 0;
-    padding: 24px;
+.plus-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #cbd5e1;
+    color: #334155;
+    font-size: 1.1rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.btn-add-excel:hover .plus-icon {
+    background-color: #2d69e0;
+    color: #ffffff;
+}
+
+/* Modal Flotante */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.form-panel.modal-content {
+    background-color: #ffffff;
+    width: 90%;
+    max-width: 550px;
+    margin: 0;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
 .form-panel h2 {
     margin-bottom: 20px;
     color: #1a202c;
+    font-size: 1.5rem;
 }
 
 .form-panel label {
     display: block;
-    margin: 16px 0 6px;
+    margin: 14px 0 6px;
     color: #334155;
     font-weight: 600;
 }
@@ -167,9 +205,16 @@ button:hover {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid #cbd5e1;
-    border-radius: 6px;
+    border-radius: 8px;
     color: #2d3748;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-panel input:focus,
+.form-panel textarea:focus {
+    border-color: #2d69e0;
 }
 
 .form-panel textarea {
@@ -179,22 +224,39 @@ button:hover {
 .form-hint {
     margin-top: 6px;
     color: #718096;
-    font-size: 0.85rem;
+    font-size: 0.825rem;
 }
 
 .form-actions {
     display: flex;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+button {
+    border: 0;
+    border-radius: 8px;
+    padding: 12px 18px;
+    background-color: #2d69e0;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #2457bd;
 }
 
 .secondary-button {
-    background-color: #e2e8f0;
-    color: #334155;
+    background-color: #f1f5f9;
+    color: #475569;
 }
 
 .secondary-button:hover {
-    background-color: #cbd5e1;
+    background-color: #e2e8f0;
+    color: #1e293b;
 }
 
 .message {
@@ -227,7 +289,7 @@ button:hover {
         padding: 12px;
     }
 
-    .form-panel {
-        padding: 18px;
+    .form-panel.modal-content {
+        padding: 20px;
     }
 }

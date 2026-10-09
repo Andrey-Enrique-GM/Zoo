@@ -14,6 +14,7 @@
                 <p class="subtitle">Descubre las distintas variedades de la raza</p>
             </header>
 
+            <!-- Mensaje de confirmacion -->
             {% if agregado %}
             <p class="message success" role="status">El chihuahua se agregó correctamente.</p>
             {% endif %}
@@ -21,57 +22,67 @@
             <p class="message error" role="alert">{{ error }}</p>
             {% endif %}
 
-            <table class="table-container">
-                <thead>
-                    <tr>
-                        <th>Tipo de Chihuahua</th>
-                        <th>Descripción</th>
-                        <th class="text-center">Imagen</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for chihuahua in chihuahuas %}
-                    <tr>
-                        <td class="font-bold">{{ chihuahua.tipo }}</td>
-                        <td class="description-text">{{ chihuahua.descripcion }}</td>
-                        <td class="text-center img-cell">
-                            <div class="img-wrapper">
-                                <img src="{{ url_for('static', filename=chihuahua.imagen) }}" alt="{{ chihuahua.tipo }}">
-                            </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
 
-
-            <!-- Controles -->
-            <div class="controls">
-                <button id="btnAddChihuahua" type="button" aria-controls="chihuahuaForm" aria-expanded="{{ 'true' if error else 'false' }}">
-                    Agregar un Chihuahua
-                </button>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo de Chihuahua</th>
+                            <th>Descripción</th>
+                            <th class="text-center">Imagen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for chihuahua in chihuahuas %}
+                        <tr>
+                            <td class="font-bold">{{ chihuahua.tipo }}</td>
+                            <td class="description-text">{{ chihuahua.descripcion }}</td>
+                            <td class="text-center img-cell">
+                                <div class="img-wrapper">
+                                    <img src="{{ url_for('static', filename=chihuahua.imagen) }}" alt="{{ chihuahua.tipo }}">
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <!-- Fila (+) para Agregar Chihuahua -->
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="add-row-cell">
+                                <button id="btnAddChihuahua" class="btn-add-excel" type="button" aria-controls="chihuahuaForm" aria-expanded="{{ 'true' if error else 'false' }}">
+                                    <span class="plus-icon">+</span>
+                                    <span>Agregar un Chihuahua</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
 
-            <section id="chihuahuaForm" class="form-panel" {% if not error %}hidden{% endif %}>
-                <h2>Nuevo Chihuahua</h2>
-                <form action="{{ url_for('add_chihuahua') }}" method="post">
-                    <label for="tipo">Tipo de Chihuahua</label>
-                    <input id="tipo" name="tipo" type="text" maxlength="100" required value="{{ form_data.get('tipo', '') }}">
 
-                    <label for="descripcion">Descripción</label>
-                    <textarea id="descripcion" name="descripcion" rows="4" required>{{ form_data.get('descripcion', '') }}</textarea>
+            <!-- Modal Flotante (Formulario) -->
+            <div id="modalOverlay" class="modal-overlay" {% if not error %}hidden{% endif %}>
+                <section id="chihuahuaForm" class="form-panel modal-content">
+                    <h2>Nuevo Chihuahua</h2>
+                    <form action="{{ url_for('add_chihuahua') }}" method="post">
+                        <label for="tipo">Tipo de Chihuahua</label>
+                        <input id="tipo" name="tipo" type="text" maxlength="100" required value="{{ form_data.get('tipo', '') }}">
 
-                    <label for="imagen">Ruta de imagen</label>
-                    <input id="imagen" name="imagen" type="text" maxlength="255" required
-                           placeholder="images/chihuahua_manzana.png" value="{{ form_data.get('imagen', '') }}">
-                    <p class="form-hint">Escribe la ruta de una imagen existente dentro de la carpeta static.</p>
+                        <label for="descripcion">Descripción</label>
+                        <textarea id="descripcion" name="descripcion" rows="4" required>{{ form_data.get('descripcion', '') }}</textarea>
 
-                    <div class="form-actions">
-                        <button type="submit">Guardar Chihuahua</button>
-                        <button id="btnCancelChihuahua" class="secondary-button" type="button">Cancelar</button>
-                    </div>
-                </form>
-            </section>
+                        <label for="imagen">Ruta de imagen</label>
+                        <input id="imagen" name="imagen" type="text" maxlength="255" required
+                               placeholder="images/chihuahua_manzana.png" value="{{ form_data.get('imagen', '') }}">
+                        <p class="form-hint">Escribe la ruta de una imagen existente dentro de la carpeta static.</p>
+
+                        <div class="form-actions">
+                            <button type="submit">Guardar Chihuahua</button>
+                            <button id="btnCancelChihuahua" class="secondary-button" type="button">Cancelar</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
 
         </main>
         <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
