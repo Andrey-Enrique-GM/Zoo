@@ -41,3 +41,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btnSelectImage = document.getElementById('btnSelectImage');
+    const imagenFile = document.getElementById('imagen_file');
+    const imagenPath = document.getElementById('imagen_path');
+
+    if (btnSelectImage && imagenFile) {
+        // Al dar clic en el botón del emoji, simular clic en el input file
+        btnSelectImage.addEventListener('click', () => {
+            imagenFile.click();
+        });
+
+        // Cuando el usuario elige un archivo
+        imagenFile.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                // Autocompletar el campo de texto con la ruta relativa que espera la DB
+                imagenPath.value = `images/${fileName}`;
+            }
+        });
+    }
+});

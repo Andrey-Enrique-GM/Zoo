@@ -3,7 +3,7 @@
 import os
 from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.utils import safe_join
+from werkzeug.utils import secure_filename, safe_join
 
 
 # CRUD de animales ---
@@ -47,20 +47,44 @@ def index():
 def add_chihuahua():
     tipo = request.form.get('tipo', '').strip()
     descripcion = request.form.get('descripcion', '').strip()
-    imagen = request.form.get('imagen', '').strip()
-    image_path = safe_join(app.static_folder, imagen)
+    
+    # Recibimos el archivo físico y la ruta de texto del formulario
+    file = request.files.get('imagen_file')
+    imagen_path_text = request.form.get('imagen_path', '').strip()
+
+    imagen_db = ''
 
     if not tipo or len(tipo) > 100:
         error = 'El tipo es obligatorio y debe tener como máximo 100 caracteres.'
     elif not descripcion:
         error = 'La descripción es obligatoria.'
-    elif not imagen or len(imagen) > 255 or not image_path or not os.path.isfile(image_path):
-        error = 'Indica una imagen existente dentro de static (por ejemplo, images/chihuahua_manzana.png).'
     else:
-        chihuahua = Chihuahua(tipo=tipo, descripcion=descripcion, imagen=imagen)
-        db.session.add(chihuahua)
-        db.session.commit()
-        return redirect(url_for('index', agregado='1'), code=303)
+        # Si el usuario seleccionó un archivo mediante el explorador
+        if file and file.filename != '':
+            filename = secure_filename(file.filename)
+            upload_folder = os.path.join(app.static_folder, 'images')
+            os.makedirs(upload_folder, exist_ok=True)
+            
+            # Guardar físicamente la imagen en static/images/
+            save_path = os.path.join(upload_folder, filename)
+            file.save(save_path)
+            
+            # Ruta que se guardará en la base de datos
+            imagen_db = f"images/{filename}"
+        else:
+            # Si se escribió manualmente una ruta existente
+            imagen_db = imagen_path_text
+
+        # Validar que la ruta de la imagen exista físicamente
+        image_full_path = safe_join(app.static_folder, imagen_db)
+        
+        if not imagen_db or len(imagen_db) > 255 or not image_full_path or not os.path.isfile(image_full_path):
+            error = 'Indica una imagen válida existente dentro de static (por ejemplo, images/chihuahua_manzana.png).'
+        else:
+            chihuahua = Chihuahua(tipo=tipo, descripcion=descripcion, imagen=imagen_db)
+            db.session.add(chihuahua)
+            db.session.commit()
+            return redirect(url_for('index', agregado='1'), code=303)
 
     chihuahuas = Chihuahua.query.all()
     return render_template(

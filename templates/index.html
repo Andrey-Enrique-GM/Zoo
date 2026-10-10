@@ -64,17 +64,27 @@
             <div id="modalOverlay" class="modal-overlay" {% if not error %}hidden{% endif %}>
                 <section id="chihuahuaForm" class="form-panel modal-content">
                     <h2>Nuevo Chihuahua</h2>
-                    <form action="{{ url_for('add_chihuahua') }}" method="post">
+                    <!-- enctype="multipart/form-data" para permitir envío de archivos -->
+                    <form action="{{ url_for('add_chihuahua') }}" method="post" enctype="multipart/form-data">
                         <label for="tipo">Tipo de Chihuahua</label>
                         <input id="tipo" name="tipo" type="text" maxlength="100" required value="{{ form_data.get('tipo', '') }}">
 
                         <label for="descripcion">Descripción</label>
                         <textarea id="descripcion" name="descripcion" rows="4" required>{{ form_data.get('descripcion', '') }}</textarea>
 
-                        <label for="imagen">Ruta de imagen</label>
-                        <input id="imagen" name="imagen" type="text" maxlength="255" required
-                               placeholder="images/chihuahua_manzana.png" value="{{ form_data.get('imagen', '') }}">
-                        <p class="form-hint">Escribe la ruta de una imagen existente dentro de la carpeta static.</p>
+                        <label for="imagen_archivo">Imagen del Chihuahua</label>
+                        <div class="file-picker-group">
+                            <input id="imagen_path" name="imagen_path" type="text" readonly placeholder="Selecciona una imagen..." required value="{{ form_data.get('imagen', '') }}">
+                            
+                            <!-- Input oculto para abrir el explorador de archivos -->
+                            <input id="imagen_file" name="imagen_file" type="file" accept="image/*" style="display: none;">
+                            
+                            <!-- Botón con emoji que activa el selector -->
+                            <button type="button" id="btnSelectImage" class="btn-picker" title="Seleccionar imagen">
+                                📁
+                            </button>
+                        </div>
+                        <p class="form-hint">Selecciona una imagen de tu equipo. Se guardará automáticamente en static/images.</p>
 
                         <div class="form-actions">
                             <button type="submit">Guardar Chihuahua</button>

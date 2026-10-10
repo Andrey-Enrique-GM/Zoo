@@ -221,6 +221,37 @@ tr:hover {
     resize: vertical;
 }
 
+.file-picker-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.file-picker-group input[readonly] {
+    flex: 1;
+    background-color: #f8fafc;
+    cursor: default;
+}
+
+.btn-picker {
+    padding: 10px 14px;
+    background-color: #e2e8f0;
+    color: #334155;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    border: none;
+    flex-shrink: 0;
+}
+
+.btn-picker:hover {
+    background-color: #cbd5e1;
+}
+
 .form-hint {
     margin-top: 6px;
     color: #718096;
@@ -229,6 +260,7 @@ tr:hover {
 
 .form-actions {
     display: flex;
+    justify-content: center;
     gap: 12px;
     margin-top: 24px;
 }

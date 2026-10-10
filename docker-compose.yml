@@ -8,6 +8,7 @@ services:
       - "5000:5000"
     volumes:
       - .:/workspaces/zoo
+      - ./static/images:/app/static/images
     environment:
       - MYSQL_HOST=db
       - MYSQL_USER=zoo_user
