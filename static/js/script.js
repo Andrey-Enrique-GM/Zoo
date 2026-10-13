@@ -1,3 +1,4 @@
+// Funcionalidad para abrir y cerrar el modal de agregar chihuahua
 document.addEventListener('DOMContentLoaded', () => {
     const addChihuahuaButton = document.getElementById('btnAddChihuahua');
     const cancelChihuahuaButton = document.getElementById('btnCancelChihuahua');
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Opcional: cerrar el modal si el usuario hace clic fuera del formulario (en el fondo oscuro)
+    // Cerrar el modal si el usuario hace clic fuera del formulario
     if (modalOverlay) {
         modalOverlay.addEventListener('click', (e) => {
             if (e.target === modalOverlay) {
@@ -44,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+// Funcionalidad para seleccionar imagen y autocompletar el campo de texto
 document.addEventListener('DOMContentLoaded', () => {
     const btnSelectImage = document.getElementById('btnSelectImage');
     const imagenFile = document.getElementById('imagen_file');
